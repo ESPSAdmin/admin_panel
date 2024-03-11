@@ -1,0 +1,6 @@
+export { default as Login } from './Login'
+export { default as Home } from './Home'
+export { default as Sidebar } from './Sidebar'
+export { default as AddProduct } from './AddProduct'
+export { default as Dashboard } from './Dashboard'
+export { default as Admin } from './Admin'
