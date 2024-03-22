@@ -13,7 +13,7 @@ const AuthContextProvider = ({ children }) => {
     console.log(data)
     try {
       setLoader(true)
-      const response = await axios.post('https://api.digiuncle.co.in/user/login/', data);
+      const response = await axios.post('https://api.digiuncle.co.in/user/login', data);
       const { token: newToken } = response.data;
       setLoader(false)
       toast.success(response.data.message);
@@ -28,19 +28,13 @@ const AuthContextProvider = ({ children }) => {
   };
 
   const registerHandle = async(data)=>{
-    const newdata = {
-      fname:data.first_name,
-      lname:data.last_name,
-      mobile:data.mobile,
-      email:data.email,
-      password:data.password
-    }
+    
       setLoader(true)
     try{
-      const res = await axios.post('https://api.digiuncle.co.in//user/create/',newdata)
+      const res = await axios.post('https://api.digiuncle.co.in/user/create/',data)
       const { token: newToken } = res.data;
-
-      toast.success(res.data.message);
+      console.log(res)
+      toast.success(res.data.data.message);
       setToken(newToken);
       localStorage.setItem("token", newToken);
     }catch(err){

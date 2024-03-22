@@ -1,4 +1,6 @@
 import { AddProduct, Admin, Dashboard, Login } from "../pages";
+import Category from "../pages/Category";
+import CategoryList from "../pages/CategoryList";
 import Signup from "../pages/Signup";
 
 const privateRoutes =[
@@ -28,6 +30,15 @@ const dashboardRoutes = [
         path : '/admin',
         element : <Admin />
     },
+    {
+        path : '/category',
+        element : <Category />
+    },
+    {
+        path : '/category-list',
+        element : <CategoryList />
+    },
+    
 ]
 
 export {privateRoutes, contentRoutes, dashboardRoutes}

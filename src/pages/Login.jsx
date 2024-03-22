@@ -6,7 +6,7 @@ const Login = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { loginHandler, token } = useAuthContext();
-  const [loginCredential, setLoginCredential] = useState({ username: "", password: "" });
+  const [loginCredential, setLoginCredential] = useState({ email: "", password: "" });
 
   useEffect(() => {
     let id;
@@ -50,9 +50,9 @@ const Login = () => {
                 </label>
                 <input
                   type="text"
-                  name="username"
+                  name="email"
                   className="form-control"
-                  value={loginCredential.username}
+                  value={loginCredential.email}
                   onChange={handleChange}
                 />
               </div>

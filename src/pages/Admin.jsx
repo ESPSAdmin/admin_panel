@@ -5,6 +5,7 @@ import Pagination from '../components/pagination/Pagination';
 const Admin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { product, deleteProductHandler } = useProductContext();
+ 
 
   const productsPerPage = 10;
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -34,11 +35,11 @@ const Admin = () => {
           <tbody>
             {currentData?.map((productItem, idx) => (
               <tr key={idx}>
-                <td>{productItem.name.slice(0, 30)}</td>
-                <td>{productItem.created_at.slice(0, 16)}</td>
-                <td>{productItem.updated_at.slice(0, 16)}</td>
+                <td>{productItem?.name?.slice(0, 30)}</td>
+                <td>{productItem?.createdAt?.slice(0, 16)}</td>
+                <td>{productItem?.updatedAt?.slice(0, 16)}</td>
                 <td className="d-flex align-items-center gap-2">
-                  <button onClick={() => deleteProductHandler(productItem.product_id)} className="btn btn-danger">Delete</button>
+                  <button onClick={() => deleteProductHandler(productItem.product_id,productItem.image)} className="btn btn-danger">Delete</button>
                   <button className="btn btn-primary">Update</button>
                 </td>
               </tr>
@@ -47,14 +48,15 @@ const Admin = () => {
         </table>
         <Pagination
           productsPerPage={productsPerPage}
-          totalProducts={product.length}
+          totalProducts={product?.length}
           currentPage={currentPage}
           totalPages={totalPages}
           handlePageChange={handlePageChange}
         />
         <div>
-          Showing {showingFrom} to {showingTo} of {product.length} products
+          Showing {showingFrom} to {showingTo} of {product?.length} products
         </div>
+        
       </div>
     </div>
   );

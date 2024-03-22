@@ -16,6 +16,13 @@ const Dashboard = () => {
                         <li className="nav-item">
                             <Link to='/addproducts' className='nav-link text-light fw-bold'>Add Product</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link to='/category' className='nav-link text-light fw-bold'>Add Category</Link>
+                        </li>
+                       
+                        <li className="nav-item">
+                            <Link to='/category-list' className='nav-link text-light fw-bold'>Category list </Link>
+                        </li>
                     </ul>
                     <ul className='nav flex-column'>
                         <li className='nav-item'>

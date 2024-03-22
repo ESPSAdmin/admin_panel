@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 export const ProductContext = createContext();
@@ -15,47 +16,57 @@ const ProductContextProvider = ({ children }) => {
       setAllLoader(true);
       try {
         // Fetch product data
-        const productResponse = await axios.get('https://api.digiuncle.co.in/product/get');
-        setProducts(productResponse.data.result);
+        const productResponse = await axios.get('https://api.digiuncle.co.in/product/admin-get',{headers:{Authorization:`espsadmin ${token}`}});
+        console.log(productResponse.data.data)
+        setProducts(productResponse.data.data);
 
         // Fetch category data
-        const categoryResponse = await axios.get('https://api.digiuncle.co.in/category/get');
-        setCategories(categoryResponse.data.result);
+        const categoryResponse = await axios.get('https://api.digiuncle.co.in/category/get',{headers:{Authorization:`espsadmin ${token}`}});
+        console.log(categoryResponse)
+        setCategories(JSON.parse(categoryResponse.data.data));
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
         setAllLoader(false);
       }
     };
-useEffect(()=>{
-  fetchData();
 
-    // Clean-up function to cancel any ongoing requests (if necessary)
-    return () => {};
+
+useEffect(()=>{
+  if(token){
+
+    fetchData();  
+  }
 },[])
   
 // Dependency array is empty because we only want to fetch data once
 
-  const addProductHandler = async (data) => {
+  const addProductHandler = async (formData) => {
+    console.log(formData);
     try {
       const response = await axios.post(
         'https://api.digiuncle.co.in/product/create',
-        data,
-        { headers: { token: `${token}` } } // Use Authorization header for token
+        formData,
+        { headers: { 
+          "Content-Type" : "multipart/form-data",
+          Authorization: `espsadmin ${token}`
+       } } 
       );
-      console.log(response.data); // Log the response data
+      toast.success(response.data.message);
+      console.log(response.data.message); // Log the response data
     } catch (error) {
       console.error(error);
     }
   };
   
  
-const deleteProductHandler = async (id) => {
+const deleteProductHandler = async (id,data) => {
+  
   try {
     const response = await axios.delete(
-      `https://api.digiuncle.co.in/product/delete/${id}`
+      `https://api.digiuncle.co.in/product//delete/${id}`,{headers:{images_url:data,Authorization:`espsadmin ${token}`}}
     );
-
+    toast.success(response.data.message);
     // Show confirmation dialog using Swal
     const result = await Swal.fire({
       title: 'Do you want to delete?',
@@ -80,7 +91,7 @@ const deleteProductHandler = async (id) => {
       });
     }
 fetchData()
-    console.log(response.data); // Log the response data
+   
   } catch (error) {
     console.error(error);
     // Show error message if deletion fails
@@ -92,8 +103,35 @@ fetchData()
   }
 }
 
+const CreateCategory = async (formdata) => {
+  try{
+    const res = await axios.post("https://api.digiuncle.co.in/category/create",formdata,{headers:{
+      Authorization:`espsadmin ${token}`
+    }})
+    toast.success(res.data.data.message);
+  }catch(err){
+    console.log(err)
+  }
+}
+
+const DeleteCategory = async (id,data) => {
+  try{
+    const res = await axios.delete(`https://api.digiuncle.co.in/category/delete/${id}`,{headers:{
+      image_path:data,
+      Authorization:`espsadmin ${token}`
+    }})
+    toast.success(res.data.message);
+    console.log(res)
+  }catch(err){
+    console.log(err)
+  }
+}
+
+
+
+
   return (
-    <ProductContext.Provider value={{ product, categories, allLoader, addProductHandler, deleteProductHandler }}>
+    <ProductContext.Provider value={{ product, categories, allLoader, addProductHandler, deleteProductHandler,CreateCategory,DeleteCategory }}>
       {children}
     </ProductContext.Provider>
   );
