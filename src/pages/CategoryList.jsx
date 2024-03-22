@@ -8,7 +8,7 @@ const CategoryList = () => {
 
     return (
         <div>
-            <table class="table">
+            <table className="table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -25,7 +25,7 @@ const CategoryList = () => {
                                     <th scope="row">{index + 1}</th>
                                     <td>
                                         <div  >
-                                            <img src={item.image_url} height="100px" width="100px" />
+                                            <img src={item.image_url} alt='category' height="100px" width="100px" />
                                         </div>
                                     </td>
                                     <td>{item.category_name}</td>

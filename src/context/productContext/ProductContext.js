@@ -17,12 +17,12 @@ const ProductContextProvider = ({ children }) => {
       try {
         // Fetch product data
         const productResponse = await axios.get('https://api.digiuncle.co.in/product/admin-get',{headers:{Authorization:`espsadmin ${token}`}});
-        console.log(productResponse.data.data)
+        
         setProducts(productResponse.data.data);
 
         // Fetch category data
         const categoryResponse = await axios.get('https://api.digiuncle.co.in/category/get',{headers:{Authorization:`espsadmin ${token}`}});
-        console.log(categoryResponse)
+        
         setCategories(JSON.parse(categoryResponse.data.data));
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -34,7 +34,6 @@ const ProductContextProvider = ({ children }) => {
 
 useEffect(()=>{
   if(token){
-
     fetchData();  
   }
 },[])
@@ -52,8 +51,8 @@ useEffect(()=>{
           Authorization: `espsadmin ${token}`
        } } 
       );
+      fetchData()
       toast.success(response.data.message);
-      console.log(response.data.message); // Log the response data
     } catch (error) {
       console.error(error);
     }
@@ -67,6 +66,7 @@ const deleteProductHandler = async (id,data) => {
       `https://api.digiuncle.co.in/product//delete/${id}`,{headers:{images_url:data,Authorization:`espsadmin ${token}`}}
     );
     toast.success(response.data.message);
+    fetchData()
     // Show confirmation dialog using Swal
     const result = await Swal.fire({
       title: 'Do you want to delete?',
@@ -107,8 +107,10 @@ const CreateCategory = async (formdata) => {
   try{
     const res = await axios.post("https://api.digiuncle.co.in/category/create",formdata,{headers:{
       Authorization:`espsadmin ${token}`
+      
     }})
-    toast.success(res.data.data.message);
+    fetchData()
+    toast.success(res.data.message);
   }catch(err){
     console.log(err)
   }
@@ -120,6 +122,7 @@ const DeleteCategory = async (id,data) => {
       image_path:data,
       Authorization:`espsadmin ${token}`
     }})
+    fetchData()
     toast.success(res.data.message);
     console.log(res)
   }catch(err){

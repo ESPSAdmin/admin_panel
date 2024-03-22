@@ -11,11 +11,9 @@ const Signup = () => {
     mobile: "",
     password: ""
   })
-  console.log(data);
 
 const hanmdlesubmit = (e)=>{
   e.preventDefault();
-  console.log(data)
   registerHandle(data)
 }
 

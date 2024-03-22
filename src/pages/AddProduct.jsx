@@ -22,7 +22,6 @@ const AddProduct = () => {
 
   })
 
-  console.log(productData)
 
 
   const handleSubmit = (e) => {

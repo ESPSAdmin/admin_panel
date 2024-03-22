@@ -33,8 +33,8 @@ const AuthContextProvider = ({ children }) => {
     try{
       const res = await axios.post('https://api.digiuncle.co.in/user/create/',data)
       const { token: newToken } = res.data;
-      console.log(res)
-      toast.success(res.data.data.message);
+      toast.success(res.data.message);
+      window.location.href="/dashboard"
       setToken(newToken);
       localStorage.setItem("token", newToken);
     }catch(err){
