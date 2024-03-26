@@ -41,7 +41,7 @@ useEffect(()=>{
 // Dependency array is empty because we only want to fetch data once
 
   const addProductHandler = async (formData) => {
-    console.log(formData);
+    setAllLoader(true)
     try {
       const response = await axios.post(
         'https://api.digiuncle.co.in/product/create',
@@ -55,12 +55,14 @@ useEffect(()=>{
       toast.success(response.data.message);
     } catch (error) {
       console.error(error);
+    }finally{
+      setAllLoader(false)
     }
   };
   
  
 const deleteProductHandler = async (id,data) => {
-  
+  setAllLoader(true)
   try {
     const response = await axios.delete(
       `https://api.digiuncle.co.in/product//delete/${id}`,{headers:{images_url:data,Authorization:`espsadmin ${token}`}}
@@ -100,10 +102,13 @@ fetchData()
       text: 'Failed to delete product.',
       icon: 'error',
     });
+  }finally{
+    setAllLoader(false)
   }
 }
 
 const CreateCategory = async (formdata) => {
+  setAllLoader(true)
   try{
     const res = await axios.post("https://api.digiuncle.co.in/category/create",formdata,{headers:{
       Authorization:`espsadmin ${token}`
@@ -113,10 +118,13 @@ const CreateCategory = async (formdata) => {
     toast.success(res.data.message);
   }catch(err){
     console.log(err)
+  }finally{
+    setAllLoader(false)
   }
 }
 
 const DeleteCategory = async (id,data) => {
+  setAllLoader(true)
   try{
     const res = await axios.delete(`https://api.digiuncle.co.in/category/delete/${id}`,{headers:{
       image_path:data,
@@ -127,6 +135,8 @@ const DeleteCategory = async (id,data) => {
     console.log(res)
   }catch(err){
     console.log(err)
+  }finally{
+    setAllLoader(false)
   }
 }
 

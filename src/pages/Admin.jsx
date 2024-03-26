@@ -4,7 +4,7 @@ import Pagination from '../components/pagination/Pagination';
 
 const Admin = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const { product, deleteProductHandler } = useProductContext();
+  const { product, deleteProductHandler,allLoader } = useProductContext();
  
 
   const productsPerPage = 10;
@@ -39,7 +39,7 @@ const Admin = () => {
                 <td>{productItem?.createdAt?.slice(0, 16)}</td>
                 <td>{productItem?.updatedAt?.slice(0, 16)}</td>
                 <td className="d-flex align-items-center gap-2">
-                  <button onClick={() => deleteProductHandler(productItem.product_id,productItem.image)} className="btn btn-danger">Delete</button>
+                  <button onClick={() => deleteProductHandler(productItem.product_id,productItem.image)} className="btn btn-danger" disabled={allLoader} >Delete</button>
                   <button className="btn btn-primary">Update</button>
                 </td>
               </tr>

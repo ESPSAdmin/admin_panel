@@ -3,7 +3,7 @@ import { useProductContext } from "../context";
 import ImageInput from "../components/ImageInput/ImageInput";
 
 const AddProduct = () => {
-  const { categories, addProductHandler } = useProductContext();
+  const { categories, addProductHandler,allLoader } = useProductContext();
   const [productData, setProductData] = useState({
     name: "",
     brand: "",
@@ -292,8 +292,8 @@ const AddProduct = () => {
             </div>
           </div>
 
-          <div className="col">
-            <button type="submit" className="btn btn-primary">Submit</button>
+          <div className="col py-3">
+            <button type="submit" className="btn btn-primary" disabled={allLoader} >{allLoader ? "Submit..." : "Submit"}</button>
           </div>
         </form>
       </div>

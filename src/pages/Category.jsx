@@ -3,7 +3,7 @@ import { useProductContext } from '../context'
 
 const Category = () => {
 
-    const {CreateCategory} = useProductContext()
+    const {CreateCategory,allLoader} = useProductContext()
 
     const [data,setdata] = useState({
         category_name:null,
@@ -54,7 +54,7 @@ const Category = () => {
           
 
           <div className="col">
-            <button type="submit" onClick={handleSubmit} className="btn btn-primary">Submit</button>
+            <button type="submit" onClick={handleSubmit} className="btn btn-primary" disabled={allLoader} >{allLoader ? "Submit...": "Submit"}</button>
           </div>
         </form>
       </div>

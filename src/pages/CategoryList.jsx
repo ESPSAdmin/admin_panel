@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useProductContext } from '../context'
 
 const CategoryList = () => {
 
-    const { categories,DeleteCategory } = useProductContext()
+    const { categories,DeleteCategory,allLoader } = useProductContext()
+    const [activeIndex,setActiveIndex] = useState(null)
 
 
     return (
@@ -30,7 +31,7 @@ const CategoryList = () => {
                                     </td>
                                     <td>{item.category_name}</td>
                                     <td className="d-flex align-items-center gap-2">
-                                        <button className="btn btn-danger" onClick={()=>DeleteCategory(item.category_id,item.image_url)} >Delete</button>
+                                        <button className="btn btn-danger" onClick={()=>{DeleteCategory(item.category_id,item.image_url)}} disabled={allLoader} >Delete</button>
                                         <button className="btn btn-primary">Update</button>
                                     </td>
                                 </tr>
