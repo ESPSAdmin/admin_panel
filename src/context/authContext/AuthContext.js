@@ -6,47 +6,53 @@ import Swal from "sweetalert2";
 export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("token"));
-  const [loader,setLoader] = useState(false)
+  const [token, setToken] = useState(localStorage.getItem("Admintoken"));
+  const [loader, setLoader] = useState(false)
 
   const loginHandler = async (data) => {
-    console.log(data)
+
     try {
       setLoader(true)
-      const response = await axios.post('https://api.digiuncle.co.in/user/login', data);
-      const { token: newToken } = response.data;
-      setLoader(false)
-      toast.success(response.data.message);
-      console.log(response)
-      setToken(newToken);
-      localStorage.setItem("token", newToken);
+      const response = await axios.post('http://localhost:5500/user/login', data);
+      if (response.data.data.type === "admin") {
+        const { token: newToken } = response.data;
+        setLoader(false)
+        toast.success(response.data.message);
+        console.log(response)
+        setToken(newToken);
+        localStorage.setItem("Admintoken", newToken);
+      }else{
+        toast.error("You are not admin")
+      }
+
     } catch (error) {
       toast.error(error.response?.data.message || "An error occurred");
-    }finally{
+    } finally {
       setLoader(false)
     }
   };
 
-  const registerHandle = async(data)=>{
-    
-      setLoader(true)
-    try{
-      const res = await axios.post('https://api.digiuncle.co.in/user/create/',data)
+  const registerHandle = async (data) => {
+
+    setLoader(true)
+    try {
+      const res = await axios.post('https://api.digiuncle.co.in/user/create/', data)
+
       const { token: newToken } = res.data;
       toast.success(res.data.message);
-      window.location.href="/dashboard"
+      window.location.href = "/dashboard"
       setToken(newToken);
-      localStorage.setItem("token", newToken);
-    }catch(err){
+      localStorage.setItem("Admintoken", newToken);
+    } catch (err) {
       toast.error(err.response?.data.message || "An error occurred");
-    }finally{
+    } finally {
       setLoader(false)
     }
   }
 
   const logoutHandler = () => {
     Swal.fire({
-      title : "Do you want to Logout ?",
+      title: "Do you want to Logout ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#23b1a5",
@@ -67,22 +73,22 @@ const AuthContextProvider = ({ children }) => {
         `
       }
     }).then((result) => {
-      if(result.isConfirmed){
+      if (result.isConfirmed) {
         Swal.fire({
           title: "Logout Successfully!",
           icon: "success"
         });
-        localStorage.removeItem('token');
+        localStorage.removeItem('Admintoken');
         setToken(null);
         window.location.href = "/"
       }
     })
   }
 
-  
+
 
   return (
-    <AuthContext.Provider value={{ token, loginHandler,registerHandle, loader, logoutHandler }}>
+    <AuthContext.Provider value={{ token, loginHandler, registerHandle, loader, logoutHandler }}>
       {children}
     </AuthContext.Provider>
   );

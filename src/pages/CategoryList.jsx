@@ -4,10 +4,7 @@ import { useProductContext } from '../context'
 const CategoryList = () => {
 
     const { categories,DeleteCategory,allLoader } = useProductContext()
-    
-
-
-    return (
+        return (
         <div>
             <table className="table">
                 <thead>

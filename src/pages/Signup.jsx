@@ -5,6 +5,7 @@ import { useAuthContext } from '../context'
 const Signup = () => {
   const { registerHandle } = useAuthContext()
   const [data, setdata] = useState({
+    type:"admin",
     firstName: "",
     lastName: "",
     email: "",
