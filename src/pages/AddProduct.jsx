@@ -22,6 +22,8 @@ const AddProduct = () => {
 
   })
 
+  console.log(productData)
+
 
 
   const handleSubmit = (e) => {
@@ -109,6 +111,7 @@ const AddProduct = () => {
               value={productData.category}
               onChange={(e) => setProductData({ ...productData, category: e.target.value })}
             >
+              <option selected >Select Category</option>
               {categories?.map((cat, idx) => (
                 <option key={idx} value={cat.category_name}>
                   {cat.category_name}
