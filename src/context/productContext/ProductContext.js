@@ -2,11 +2,12 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { useAuthContext } from "..";
 
 export const ProductContext = createContext();
 
 const ProductContextProvider = ({ children }) => {
-  const token = localStorage.getItem('token');
+  const {token} = useAuthContext()
   const [product, setProducts] = useState([]); // Change 'product' to 'products' for consistency
   const [categories, setCategories] = useState([]); // Change 'category' to 'categories' for consistency
   const [allLoader, setAllLoader] = useState(false);
@@ -51,6 +52,7 @@ useEffect(()=>{
           Authorization: `espsadmin ${token}`
        } } 
       );
+      window.location.href = "/admin"
       fetchData()
       toast.success(response.data.message);
     } catch (error) {
@@ -114,7 +116,9 @@ const CreateCategory = async (formdata) => {
       Authorization:`espsadmin ${token}`
       
     }})
+
     fetchData()
+    window.location.href = "/category-list"
     toast.success(res.data.message);
   }catch(err){
     console.log(err)

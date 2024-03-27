@@ -4,7 +4,7 @@ import { useProductContext } from '../context'
 const CategoryList = () => {
 
     const { categories,DeleteCategory,allLoader } = useProductContext()
-    const [activeIndex,setActiveIndex] = useState(null)
+    
 
 
     return (
