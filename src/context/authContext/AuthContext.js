@@ -13,7 +13,7 @@ const AuthContextProvider = ({ children }) => {
 
     try {
       setLoader(true)
-      const response = await axios.post('http://localhost:5500/user/login', data);
+      const response = await axios.post('https://api.digiuncle.co.in/user/login', data);
       if (response.data.data.type === "admin") {
         const { token: newToken } = response.data;
         setLoader(false)
@@ -21,8 +21,8 @@ const AuthContextProvider = ({ children }) => {
         console.log(response)
         setToken(newToken);
         localStorage.setItem("Admintoken", newToken);
-      }else{
-        toast.error("You are not admin")
+      } else {
+        toast.error("Invalid credentials")
       }
 
     } catch (error) {
@@ -37,12 +37,16 @@ const AuthContextProvider = ({ children }) => {
     setLoader(true)
     try {
       const res = await axios.post('https://api.digiuncle.co.in/user/create/', data)
+      if (res.data.data.type === "admin") {
+        const { token: newToken } = res.data;
+        toast.success(res.data.message);
+        window.location.href = "/dashboard"
+        setToken(newToken);
+        localStorage.setItem("Admintoken", newToken);
+      }else{
+        toast.error("Invalid credentials")
+      }
 
-      const { token: newToken } = res.data;
-      toast.success(res.data.message);
-      window.location.href = "/dashboard"
-      setToken(newToken);
-      localStorage.setItem("Admintoken", newToken);
     } catch (err) {
       toast.error(err.response?.data.message || "An error occurred");
     } finally {
